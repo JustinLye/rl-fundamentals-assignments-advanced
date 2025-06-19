@@ -10,7 +10,7 @@ from rl.algorithms.bandits.viz import plot_trial_results
 from rl.environment.bandits.k_armed_bandit import KArmedTestbed
 from rl.utils.general import argmax_ties_random
 
-matplotlib.use('TkAgg')
+matplotlib.use("TkAgg")
 
 
 class EpsilonGreedy:
@@ -21,7 +21,7 @@ class EpsilonGreedy:
         max_steps: int = 1000,
         initialisation: float = 0,
         use_weighted_average: bool = False,
-        alpha: float = 0.1
+        alpha: float = 0.1,
     ) -> None:
         """
         Initialise the EpsilonGreedy agent.
@@ -59,17 +59,23 @@ class EpsilonGreedy:
 
         self.action_counts = np.zeros(self.num_actions)
 
-    def act(self)-> int:
+    def act(self) -> int:
         """
         Select an action using the epsilon-greedy policy.
 
         Returns:
             int: The action selected.
         """
-        pass  # TODO: Implement this function
 
+        return np.random.choice(
+            a=[
+                argmax_ties_random(self.q_values),
+                np.random.randint(0, self.num_actions),
+            ],
+            p=[1 - self.epsilon, self.epsilon],
+        )
 
-    def simple_update(self, action: int, reward: float)-> None:
+    def simple_update(self, action: int, reward: float) -> None:
         """
         Update the action-value estimate using sample averages.
 
@@ -79,8 +85,7 @@ class EpsilonGreedy:
         """
         pass  # TODO: Implement this function
 
-
-    def weighted_update(self, action: int, reward: float)-> None:
+    def weighted_update(self, action: int, reward: float) -> None:
         """
         Update the action-value estimate using a constant step size.
 
@@ -89,7 +94,6 @@ class EpsilonGreedy:
             reward (float): The reward received.
         """
         pass  # TODO: Implement this function
-
 
     def train(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -158,7 +162,9 @@ def epsilon_sweep_experiment() -> None:
 
         # Plot the results
         ax[0].plot(mean_rewards, label=f"ε={epsilon}", color=plot_colour)
-        ax[1].plot(optimal_action_fraction * 100, label=f"ε={epsilon}", color=plot_colour)
+        ax[1].plot(
+            optimal_action_fraction * 100, label=f"ε={epsilon}", color=plot_colour
+        )
 
     # Set titles and labels
     ax[0].set_title("Average reward over time")
@@ -176,8 +182,7 @@ def epsilon_sweep_experiment() -> None:
 
 
 def initial_val_experiment(
-    show_individual_runs: bool = False,
-    show_confidence_interval: bool = False
+    show_individual_runs: bool = False, show_confidence_interval: bool = False
 ) -> None:
     """
     Run the optimistic initial values experiment and plot the results.
@@ -201,7 +206,7 @@ def initial_val_experiment(
     # Define the runs with different initialisations
     runs = {
         "grey": {"init": 0, "epsilon": 0.1, "use_weighted_average": True},
-        "blue": {"init": 5, "epsilon": 0, "use_weighted_average": True}
+        "blue": {"init": 5, "epsilon": 0, "use_weighted_average": True},
     }
     max_steps = 1000
 
@@ -216,7 +221,7 @@ def initial_val_experiment(
             params["epsilon"],
             max_steps,
             params["init"],
-            params["use_weighted_average"]
+            params["use_weighted_average"],
         )
 
         # Train the agent
@@ -230,7 +235,7 @@ def initial_val_experiment(
             ax,
             plot_colour,
             show_individual_runs,
-            show_confidence_interval
+            show_confidence_interval,
         )
 
     # Set titles and labels
