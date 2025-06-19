@@ -4,3 +4,4 @@
 /venv/
 /stitched_videos/
 /videos/
+__pycache__
