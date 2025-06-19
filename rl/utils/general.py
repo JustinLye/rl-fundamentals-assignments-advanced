@@ -33,7 +33,13 @@ def argmax_ties_random(q_values: np.ndarray)-> int:
     Returns:
         int: The action to take.
     """
-    pass  # TODO: Implement this function
+    if 1 != q_values.ndim:
+        raise ValueError("q_values must be a 1 dimensional array")
+    
+    if 0 == len(q_values):
+        raise ValueError("q_values cannot be empty")
+    
+    return np.random.choice(np.argwhere(q_values == np.max(q_values)).flatten())
 
 
 def argmax_ties_last(q_values: np.ndarray) -> int:
