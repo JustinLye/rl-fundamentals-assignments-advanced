@@ -1,0 +1,10 @@
+{
+    "black-formatter.path": [
+        "poetry",
+        "run",
+        "python",
+        "-m",
+        "black"
+    ],
+    "editor.formatOnSave": true
+}
