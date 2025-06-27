@@ -83,7 +83,10 @@ class EpsilonGreedy:
             action (int): The action taken.
             reward (float): The reward received.
         """
-        pass  # TODO: Implement this function
+        self.action_counts[action] += 1
+        self.q_values[action] += (1.0 / self.action_counts[action]) * (
+            reward - self.q_values[action]
+        )
 
     def weighted_update(self, action: int, reward: float) -> None:
         """
@@ -93,7 +96,8 @@ class EpsilonGreedy:
             action (int): The action taken.
             reward (float): The reward received.
         """
-        pass  # TODO: Implement this function
+        self.action_counts[action] += 1
+        self.q_values[action] += self.alpha * (reward - self.q_values[action])
 
     def train(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -272,7 +276,7 @@ if __name__ == "__main__":
     """
 
     # Epsilon Sweep Experiment
-    # epsilon_sweep_experiment()
+    epsilon_sweep_experiment()
 
     # Optimistic Initial Values Experiment
     # Uncomment one of the following lines to run the experiment with desired options:
